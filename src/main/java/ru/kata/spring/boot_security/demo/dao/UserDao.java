@@ -1,22 +1,25 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.kata.spring.boot_security.demo.model.User;
+
 import java.util.List;
-import java.util.Optional;
 
-public interface UserDao {
+public interface UserDao extends UserDetailsService {
 
+    void createUser(User user);
 
-    User getUser(long id);
+    void deleteUser(long id);
 
-    Optional<User> findUserByEmail(String email);
+    void updateUser(User user, long id);
 
     List<User> getAllUsers();
 
-    void saveUser(User user);
+    User getUser(long id);
 
-    void editUser(User user);
-
-    void removeUserById(long id);
+    @Override
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
-

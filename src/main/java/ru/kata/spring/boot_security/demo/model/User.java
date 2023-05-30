@@ -1,25 +1,21 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique=true)
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -27,13 +23,13 @@ public class User implements UserDetails {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "lastname")
-    private String lastName;
+    @Column(name = "surname")
+    private String surname;
 
     @Column(name = "age")
-    private Byte age;
+    private int age;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -43,41 +39,61 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
+
     }
 
-    public User(String password, String name, String lastName, Byte age, String email, Set<Role> roles) {
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
-        this.email = email;
-        this.roles = roles;
+
+    public void addRoleToUser(Role role) {
+        this.roles.add(role);
     }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return mapRolesToAuthorities(getRoles());
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(toList());
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    @Override
-    public String getUsername() {
-        return getEmail();
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -100,76 +116,17 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Byte getAge() {
-        return age;
-    }
-
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public Set<Role> getRoles() {
         return roles;
     }
 
-    public String showRoles() {
-        return getRoles()
-                .stream()
-                .map(Role::getRole)
-                .map(r -> r.substring(5))
-                .collect(Collectors.joining(", "));
-    }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, lastName, age);
-    }
 }

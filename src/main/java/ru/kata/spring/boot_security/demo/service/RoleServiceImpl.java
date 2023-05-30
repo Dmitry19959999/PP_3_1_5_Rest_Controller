@@ -5,12 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.model.Role;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
-
 
     private final RoleDao roleDao;
 
@@ -20,27 +18,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void saveRole(Role role) {
-        roleDao.saveRole(role);
+    public void createRole(Role role) {
+        roleDao.createRole(role);
     }
 
     @Override
-    public Set<Role> getDefaultRole(long id) {
-        return roleDao.getDefaultRole(id);
+    public List<Role> getAllRoles() {
+        return roleDao.getAllRoles();
     }
 
     @Override
-    public Role getRoleById(long id) {
-        return roleDao.getRoleById(id);
-    }
-
-    @Override
-    public Set<Role> getAllRolesWithoutFirst() {
-        return roleDao.getAllRolesWithoutFirst();
-    }
-
-    @Override
-    public Set<Role> getRoleByName(Set<String> name) {
-        return roleDao.getRoleByName(name);
+    public Role findRole(String roleName) {
+        return roleDao.findRole(roleName);
     }
 }
