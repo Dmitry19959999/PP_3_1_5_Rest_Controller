@@ -10,6 +10,8 @@ public interface RoleDao {
 
     List<Role> getAllRoles();
 
-    Role findRole(String roleName);
+    Role finedRoleByRoleName(String roleName);
+
+    Role finedRoleById(long id);
 
 }

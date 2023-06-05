@@ -15,7 +15,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext()
     private EntityManager entityManager;
@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao{
         Set<Role> roleSet = new HashSet<>();
         if (user.getRoles() != null) {
             for (Role role : user.getRoles()) {
-                Role foundRole = roleService.findRole(role.getRoleName());
+                Role foundRole = roleService.finedRoleById(role.getId());
                 roleSet.add(foundRole);
             }
         }
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao{
         Set<Role> roleSet = new HashSet<>();
         if (user.getRoles() != null) {
             for (Role role : user.getRoles()) {
-                Role foundRole = roleService.findRole(role.getRoleName());
+                Role foundRole = roleService.finedRoleById(role.getId());
                 roleSet.add(foundRole);
             }
         }
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao{
         Query query = entityManager.createQuery("select u from User u where u.email = :email")
                 .setParameter("email", email);
         User user = (User) query.getSingleResult();
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("User with email %s not found", email));
         }
         user.getRoles().size();

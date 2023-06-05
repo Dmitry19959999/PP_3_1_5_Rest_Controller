@@ -12,13 +12,11 @@
 <body>
 <div class="container-fluid ">
     <div class="row bg-dark text-white">
-        <div class="col-md-6">
-
+        <div class="col-md-6 " id="user">
             <h5 class="pt-2">
-                <span th:text="${user.getEmail()}"></span>
-                <span class="navbar-text text-white"> with roles: </span>
-                <span class="navbar-text text-white" th:each="role : ${user.getRoles()}"
-                      th:text="${role.getRoleName().replace('ROLE_', '')}"></span>
+                <span id="authUser"></span>
+                <span class="text-white"> with roles: </span>
+                <span id="authUserRoles"></span>
             </h5>
         </div>
         <div class="col-md-6 text-right pt-2">
@@ -43,11 +41,11 @@
         </div>
         <div class="col-10 bg-light">
             <br>
-            <div class="raw">
+            <div class="raw" >
                 <h1> User information-page </h1>
             </div>
             <div class="card-header"><h5>About user</h5></div>
-            <div id="table-boarder" style="padding: 20px;">
+            <div class="bg-white border" style="padding: 20px;">
                 <table class="table table-striped">
                     <thead class="table">
                     <tr>
@@ -59,20 +57,7 @@
                         <th>Role</th>
                     </tr>
                     </thead>
-
-                    <tbody>
-                    <tr>
-                        <td th:text="${user.getId()}"></td>
-                        <td th:text="${user.getName()}"></td>
-                        <td th:text="${user.getSurname()}"></td>
-                        <td th:text="${user.getAge()}"></td>
-                        <td th:text="${user.getEmail()}"></td>
-                        <td>
-                            <div th:each="role : ${user.getRoles()}"
-                                 th:text="${role.getRoleName().replace('ROLE_', '')}">Role
-                            </div>
-                        </td>
-                    </tr>
+                    <tbody id="authUserPanel">
                     </tbody>
                 </table>
             </div>
@@ -88,5 +73,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
+<script type="application/javascript" src="/ShowAuthUser.js"></script>
 </body>
 </html>
